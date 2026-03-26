@@ -1,0 +1,1 @@
+const fs = require('fs'); let p = fs.readFileSync('src/app/page.tsx', 'utf8'); p = p.replace(/<button[\s\S]*?aria-label="Toggle Theme"[\s\S]*?<\/button>/g, ''); fs.writeFileSync('src/app/page.tsx', p);

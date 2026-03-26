@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { motion } from "motion/react";
 import LogoLoop, { type LogoItem } from "@/components/LogoLoop";
-import RippleGrid from "@/components/RippleGrid";
 import ScrollVelocity from "@/components/ScrollVelocity";
 import TrueFocus from "@/components/TrueFocus";
+import SplashCursor from "@/components/SplashCursor";
 import {
   SiJavascript,
   SiLaravel,
@@ -14,25 +14,8 @@ import {
   SiReact,
   SiTypescript,
   SiVuedotjs,
+  SiInstagram,
 } from "react-icons/si";
-
-const services = [
-  {
-    title: "Pengembangan Frontend React.js",
-    meta: "UI dashboard dan sistem internal",
-    icon: "FE",
-  },
-  {
-    title: "Backend API Nest.js",
-    meta: "RBAC, CRUD, dan integrasi data",
-    icon: "BE",
-  },
-  {
-    title: "Database Management",
-    meta: "PostgreSQL, MySQL, HeidiSQL",
-    icon: "DB",
-  },
-];
 
 const timeline = [
   {
@@ -75,65 +58,27 @@ const timeline = [
 ];
 
 export default function Home() {
-  const [isLightMode, setIsLightMode] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-    return window.localStorage.getItem("portfolio-theme") === "light";
-  });
-
-  const toggleTheme = () => {
-    setIsLightMode((prev) => {
-      const next = !prev;
-      window.localStorage.setItem("portfolio-theme", next ? "light" : "dark");
-      return next;
-    });
-  };
-
   const techLogos: LogoItem[] = [
-    {
-      node: <SiVuedotjs className="ref-tech-brand-icon" />,
-      title: "Vue.js",
-      ariaLabel: "Vue.js",
-    },
+    { node: <SiReact className="ref-tech-brand-icon" />, title: "React" },
+    { node: <SiVuedotjs className="ref-tech-brand-icon" />, title: "Vue.js" },
     {
       node: <SiJavascript className="ref-tech-brand-icon" />,
       title: "JavaScript",
-      ariaLabel: "JavaScript",
     },
     {
       node: <SiTypescript className="ref-tech-brand-icon" />,
       title: "TypeScript",
-      ariaLabel: "TypeScript",
     },
-    {
-      node: <SiNestjs className="ref-tech-brand-icon" />,
-      title: "NestJS",
-      ariaLabel: "NestJS",
-    },
-    {
-      node: <SiPhp className="ref-tech-brand-icon" />,
-      title: "PHP",
-      ariaLabel: "PHP",
-    },
-    {
-      node: <SiLaravel className="ref-tech-brand-icon" />,
-      title: "Laravel",
-      ariaLabel: "Laravel",
-    },
-    {
-      node: <SiReact className="ref-tech-brand-icon" />,
-      title: "ReactJS",
-      ariaLabel: "ReactJS",
-    },
+    { node: <SiNestjs className="ref-tech-brand-icon" />, title: "NestJS" },
+    { node: <SiPhp className="ref-tech-brand-icon" />, title: "PHP" },
+    { node: <SiLaravel className="ref-tech-brand-icon" />, title: "Laravel" },
   ];
 
   const loopLogos: LogoItem[] = [...techLogos, ...techLogos];
 
   return (
-    <main
-      className={`portfolio-page ${isLightMode ? "theme-light" : "theme-dark"}`}
-    >
+    <main className="portfolio-page">
+      <SplashCursor />
       {/* HEADER NAV SEPERTI REFERENSI */}
       <header className="ref-nav">
         <div className="ref-nav-logo">
@@ -141,12 +86,8 @@ export default function Home() {
             sentence="Aldi Vandiaz"
             separator=" "
             blurAmount={1.6}
-            borderColor={isLightMode ? "#258f90" : "#cfe1f1"}
-            glowColor={
-              isLightMode
-                ? "rgba(37, 143, 144, 0.35)"
-                : "rgba(207, 225, 241, 0.4)"
-            }
+            borderColor="#258f90"
+            glowColor="rgba(37, 143, 144, 0.35)"
             animationDuration={0.45}
             pauseBetweenAnimations={1.15}
             className="ref-nav-focus"
@@ -154,15 +95,6 @@ export default function Home() {
           />
         </div>
         <div className="ref-nav-actions">
-          <button
-            className={`ref-theme-toggle ${isLightMode ? "is-on" : ""}`}
-            aria-label="Toggle Theme"
-            aria-pressed={isLightMode}
-            onClick={toggleTheme}
-            type="button"
-          >
-            <span className="ref-theme-knob" />
-          </button>
           <div className="ref-lang">
             <span className="ref-flag" aria-hidden="true">
               o
@@ -173,22 +105,9 @@ export default function Home() {
       </header>
 
       <section className="hero-ref">
-        {/* BACKGROUND LINGKARAN & BINTANG CENTER */}
+        {/* BACKGROUND LINGKARAN CENTER - TANPA RIPPLE */}
         <div className="ref-center-visual">
-          <div className="ref-circle-backdrop">
-            <div className="ref-ripple-wrap">
-              <RippleGrid
-                enableRainbow={false}
-                gridColor={isLightMode ? "#144f57" : "#ffffff"}
-                rippleIntensity={0.05}
-                gridSize={10}
-                gridThickness={15}
-                mouseInteraction
-                mouseInteractionRadius={1.2}
-                opacity={isLightMode ? 0.65 : 0.8}
-              />
-            </div>
-          </div>
+          <div className="ref-circle-backdrop" />
           <Image
             src="/aldi-bg.png"
             alt="Aldi Vandiaz Maulana"
@@ -199,10 +118,47 @@ export default function Home() {
         </div>
 
         <div className="ref-hero-content">
-          <div className="ref-left">
-            <span className="ref-saya">Saya</span>
-            <h1 className="ref-name">Aldi Vandiaz</h1>
-            <div className="ref-line" />
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="ref-left"
+          >
+            <span className="ref-saya">I&apos;m</span>
+            <h1 className="ref-name">
+              <span style={{ whiteSpace: "nowrap" }}>
+                {"Aldi Vandiaz".split("").map((char, index) => (
+                  <motion.span
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.5 + index * 0.05 }}
+                    style={{ display: "inline-block" }}
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </motion.span>
+                ))}
+              </span>
+              <br />
+              {"Maulana".split("").map((char, index) => (
+                <motion.span
+                  key={`m-${index}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 1.1 + index * 0.05 }}
+                  style={{ display: "inline-block" }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </h1>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1, delay: 1.2, ease: "easeOut" }}
+              style={{ originX: 0 }}
+              className="ref-line"
+            />
             <p className="ref-bio-main">
               Sebagai mahasiswa dari Fakultas Ilmu Komputer dengan pengalaman 2
               tahun di bidang Frontend, Program Studi D-3 Teknik Informatika di
@@ -212,36 +168,32 @@ export default function Home() {
               juga memiliki keahlian dalam bahasa pemrograman JavaScript dan
               PHP.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="ref-right">
-            <h2 className="ref-role">Web Programmer</h2>
-            <ul className="ref-role-desc">
-              <li>
-                Saya memiliki passion dalam menciptakan aplikasi yang stabil dan
-                terukur.
-              </li>
-              <li>
-                Selalu bersemangat untuk mempelajari teknologi baru dan problem
-                solving.
-              </li>
-            </ul>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            className="ref-right"
+          >
+            <h2 className="ref-role">Frontend Developer</h2>
+            <p className="ref-role-desc" style={{ marginBottom: "1.5rem" }}>
+              Saya memiliki passion dalam menciptakan antarmuka pengguna yang
+              menarik dan fungsional. Selalu bersemangat untuk mempelajari
+              teknologi baru dan memberikan solusi inovatif.
+            </p>
+
+            <p className="ref-get-to-know">Kenali Saya Lebih Lanjut</p>
 
             <div className="ref-socials">
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ref-social-circle"
+                className="ref-social-circle group relative"
                 title="Instagram"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="tech-icon"
-                >
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
+                <SiInstagram className="tech-icon relative z-10" />
               </a>
               <a
                 href="https://www.linkedin.com/in/aldi-vandiaz-maulana-5450012a8/"
@@ -289,131 +241,243 @@ export default function Home() {
                 </svg>
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* BOTTOM TECH DOCK */}
         <div className="ref-tech-dock">
           <LogoLoop
             logos={loopLogos}
-            speed={82}
-            logoHeight={36}
-            gap={48}
-            pauseOnHover
-            fadeOut={false}
+            speed={80}
+            direction="left"
+            logoHeight={50}
+            gap={200}
+            hoverSpeed={0}
+            scaleOnHover
+            fadeOut
+            fadeOutColor="#ffffff"
             ariaLabel="Tech stack loop"
             className="ref-tech-loop"
-            renderItem={(item, key) => (
-              <div className="ref-tech-item" key={key} title={item.title}>
-                {"node" in item ? item.node : null}
-              </div>
-            )}
           />
         </div>
 
-        <div className="hero-bottom-wave" aria-hidden="true">
-          <span className="wave-layer wave-layer-back" />
-          <span className="wave-layer wave-layer-front" />
+        {/* BOTTOM WAVE TRANSITION */}
+        <div className="hero-bottom-wave">
+          <div className="hero-wave-layer hero-wave-layer-back" />
+          <div className="hero-wave-layer hero-wave-layer-front" />
         </div>
       </section>
 
-      <section className="skills section-pattern" id="about">
-        <div className="skills-grid">
-          <div className="skills-left">
-            <h2>Apa Yang Saya Bisa Lakukan?</h2>
+      <section className="skills-light" id="about">
+        <div className="skills-grid-light">
+          <div className="skills-left-light">
+            <h2 className="skills-title-pink">
+              Apa Yang Saya Bisa
+              <br />
+              Lakukan?
+            </h2>
             <p>
-              Saya fokus membangun aplikasi web modern dengan alur kerja
-              terstruktur dari desain database, pengembangan frontend, hingga
-              integrasi API. Saya terbiasa mengerjakan sistem internal dengan
-              kebutuhan data yang dinamis dan role-based access.
+              Saya mengkhususkan diri dalam membangun situs web yang menarik
+              secara visual dan sangat fungsional sesuai dengan kebutuhan unik
+              Anda. Mulai dari menciptakan desain responsif yang bekerja mulus
+              di semua perangkat hingga memastikan kinerja dan pengalaman
+              pengguna yang optimal, saya berusaha memberikan hasil yang
+              melampaui ekspektasi.
             </p>
-            <div className="stats-row">
+            <div className="stats-row-light">
               <div>
-                <strong>2</strong>
+                <strong>5+</strong>
                 <span>Proyek Selesai</span>
               </div>
               <div>
-                <strong>6 Bulan</strong>
-                <span>Pengalaman Magang</span>
+                <strong>2+</strong>
+                <span>Tahun Pengalaman</span>
               </div>
             </div>
           </div>
 
-          <div className="skills-right">
-            {services.map((service) => (
-              <article className="service-item" key={service.title}>
-                <div className="service-icon">{service.icon}</div>
-                <div>
-                  <h3>{service.title}</h3>
-                  <p>{service.meta}</p>
-                </div>
-              </article>
-            ))}
+          <div className="skills-right-light">
+            <article className="service-item-light">
+              <div className="service-icon-box">
+                <Image
+                  src="/fe.svg"
+                  alt="Pengembangan Frontend"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                />
+              </div>
+              <div>
+                <h3>Pengembangan Frontend</h3>
+                <p>5+ Proyek Selesai</p>
+              </div>
+            </article>
+
+            <article className="service-item-light">
+              <div className="service-icon-box">
+                <Image
+                  src="/fullstack.svg"
+                  alt="Pengembangan Fullstack"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                />
+              </div>
+              <div>
+                <h3>Pengembangan Fullstack</h3>
+                <p>2+ Proyek Selesai</p>
+              </div>
+            </article>
+
+            <article className="service-item-light">
+              <div className="service-icon-box">
+                <Image
+                  src="/ui.svg"
+                  alt="Desain UI/UX"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                />
+              </div>
+              <div>
+                <h3>Desain UI/UX</h3>
+                <p>Antarmuka Modern & Responsif</p>
+              </div>
+            </article>
           </div>
         </div>
 
-        <div className="skill-cards">
-          <article>
-            <span className="card-dot" />
+        <div className="skill-cards-light">
+          <article className="skill-card-box">
+            <div className="skill-card-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="32" height="32" rx="16" fill="#5D9B9B" />
+                <path
+                  d="M12 11L7 16L12 21"
+                  stroke="white"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M20 11L25 16L20 21"
+                  stroke="white"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M17 9L15 23"
+                  stroke="white"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
             <h3>Pemrograman Web</h3>
             <p>
-              Menguasai Java, JavaScript/TypeScript, PHP, HTML, CSS, dan XML
-              untuk membangun aplikasi web yang terstruktur, responsif, dan
-              mudah dikembangkan.
+              Pemrograman web melibatkan pembuatan situs web dan aplikasi yang
+              dinamis menggunakan bahasa seperti HTML, CSS, JavaScript, PHP,
+              memastikan fungsi dan interaksi pengguna.
             </p>
           </article>
-          <article>
-            <span className="card-dot" />
-            <h3>Cloud, Tools, dan Kolaborasi</h3>
+          <article className="skill-card-box">
+            <div className="skill-card-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="32" height="32" rx="16" fill="#5D9B9B" />
+                <rect
+                  x="9"
+                  y="10"
+                  width="14"
+                  height="12"
+                  rx="1"
+                  stroke="white"
+                  strokeWidth="1.5"
+                />
+                <path d="M9 14 L23 14" stroke="white" strokeWidth="1.5" />
+                <path d="M13 14 L13 22" stroke="white" strokeWidth="1.5" />
+              </svg>
+            </div>
+            <h3>Desain UI/UX</h3>
             <p>
-              Menggunakan GitHub, Git, Postman, Axios, VS Code, serta memahami
-              dasar cloud platform seperti GCP, AWS Fundamental, dan deployment
-              ke Vercel.
+              Desain UI/UX berfokus pada perancangan antarmuka visual yang
+              modern dan intuitif, dengan mengutamakan kenyamanan, kemudahan,
+              dan interaksi pengalaman pengguna yang memuaskan.
             </p>
           </article>
         </div>
       </section>
 
       <section className="portfolio">
-        <div className="section-head">
-          <h2>Portofolio Terbaik Pilihan Saya</h2>
-          <p>
-            Dua proyek utama berikut dikerjakan pada masa magang dan
-            project-based development dengan fokus pada manajemen data,
-            monitoring operasional, dan keamanan akses pengguna.
-          </p>
-        </div>
-
-        <div className="portfolio-grid">
-          <article className="project-card">
-            <div className="project-meta">React.js & Nest.js</div>
-            <h3>Plant Map Management System</h3>
-            <p>
-              Sistem pemetaan dan monitoring lokasi plant/unit produksi dengan
-              fitur CRUD, manajemen user, visualisasi peta, dan RBAC.
+        <div className="portfolio-inner">
+          <div className="portfolio-intro">
+            <h2 className="portfolio-title">Portofolio Terbaik Pilihan Saya</h2>
+            <p className="portfolio-desc">
+              Berikut adalah beberapa proyek paling menonjol saya yang
+              menunjukkan kreativitas, keahlian teknis, dan dedikasi untuk
+              memberikan hasil yang luar biasa. Setiap proyek menyoroti
+              kemampuan saya dalam merancang, mengembangkan, dan
+              mengimplementasikan solusi yang disesuaikan dengan kebutuhan unik
+              klien, memastikan fungsionalitas, responsivitas, dan kepuasan
+              pengguna.
             </p>
-            <Image
-              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop"
-              alt="Plant map management system"
-              fill
-              className="project-cover"
-            />
-          </article>
+          </div>
 
-          <article className="project-card">
-            <div className="project-meta">React.js, Nest.js, PostgreSQL</div>
-            <h3>IT Asset Management System</h3>
-            <p>
-              Sistem manajemen aset IT dengan dashboard monitoring BBM, bulk
-              import CSV, RBAC, modul overtime, serta laporan berbasis Excel.
-            </p>
-            <Image
-              src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1600&auto=format&fit=crop"
-              alt="IT asset management system"
-              fill
-              className="project-cover"
-            />
-          </article>
+          <div className="portfolio-cards-grid">
+            <article className="portfolio-card-new">
+              <div className="portfolio-card-header">
+                <span className="portfolio-card-tag">React.js & Nest.js</span>
+                <h3>Plant Map Management System</h3>
+                <p>
+                  Sistem pemetaan dan monitoring lokasi plant/unit produksi
+                  dengan fitur CRUD, manajemen user, visualisasi peta, dan RBAC.
+                </p>
+              </div>
+              <div className="portfolio-card-image">
+                <Image
+                  src="/plant-map-mockup.png"
+                  alt="Plant Map Management System Dashboard"
+                  fill
+                  className="object-cover object-top"
+                />
+              </div>
+            </article>
+
+            <article className="portfolio-card-new">
+              <div className="portfolio-card-header">
+                <span className="portfolio-card-tag">
+                  React.js, Nest.js, PostgreSQL
+                </span>
+                <h3>IT Asset Management System</h3>
+                <p>
+                  Sistem manajemen aset IT dengan dashboard monitoring BBM, bulk
+                  import CSV, RBAC, modul overtime, serta laporan berbasis
+                  Excel.
+                </p>
+              </div>
+              <div className="portfolio-card-image">
+                <Image
+                  src="/it-asset-mockup.png"
+                  alt="IT Asset Management System Dashboard"
+                  fill
+                  className="object-cover object-top"
+                />
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 

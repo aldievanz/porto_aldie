@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local one-off scripts not part of app runtime:
+    "fix_react.js",
+    "fix_react_2.js",
+    // Third-party style shader component with extensive dynamic WebGL typing:
+    "src/components/SplashCursor.tsx",
   ]),
 ]);
 

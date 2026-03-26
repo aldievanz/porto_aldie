@@ -1,0 +1,1 @@
+const fs = require('fs'); let p = fs.readFileSync('src/app/page.tsx', 'utf8'); p = p.replace(/<div className="hero-bottom-wave" aria-hidden="true">[\s\S]*?<\/div>/g, ''); fs.writeFileSync('src/app/page.tsx', p);
